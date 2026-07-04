@@ -1,0 +1,9 @@
+
+.env
+venv/
+dentis_venv/
+__pycache__/
+*.pyc
+appointments.db
+.idea/
+ 
