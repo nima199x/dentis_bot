@@ -18,6 +18,7 @@ async def set_bot_commands(bot: Bot):
         BotCommand(command="start", description="شروع / راهنما"),
         BotCommand(command="book", description="رزرو نوبت جدید"),
         BotCommand(command="cancel", description="مشاهده و حذف نوبت‌های من"),
+        BotCommand(command="language", description="تغییر زبان / Change language"),
         BotCommand(command="appointments", description="لیست نوبت‌ها (ادمین)"),
     ]
     await bot.set_my_commands(commands)

@@ -13,6 +13,9 @@ def create_db():
                         phone TEXT,
                         date TEXT,
                         time TEXT)''')
+    cursor.execute('''CREATE TABLE IF NOT EXISTS user_prefs (
+                        user_id INTEGER PRIMARY KEY,
+                        language TEXT)''')
     conn.commit()
 
     # مهاجرت برای دیتابیس‌های قدیمی که ستون time رو ندارن
@@ -22,6 +25,27 @@ def create_db():
         cursor.execute("ALTER TABLE appointments ADD COLUMN time TEXT")
         conn.commit()
 
+    conn.close()
+
+
+def get_user_language(user_id):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute("SELECT language FROM user_prefs WHERE user_id = ?", (user_id,))
+    row = cursor.fetchone()
+    conn.close()
+    return row[0] if row else None
+
+
+def set_user_language(user_id, language):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute(
+        "INSERT INTO user_prefs (user_id, language) VALUES (?, ?) "
+        "ON CONFLICT(user_id) DO UPDATE SET language = excluded.language",
+        (user_id, language)
+    )
+    conn.commit()
     conn.close()
 
 
@@ -63,22 +87,14 @@ def get_booked_times(date_str):
     return {r[0] for r in rows if r[0]}
 
 
-def get_fully_booked_dates(year, month, total_slots):
+def get_fully_booked_dates(total_slots):
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
     cursor.execute("SELECT date, COUNT(*) FROM appointments GROUP BY date")
     rows = cursor.fetchall()
     conn.close()
 
-    full_dates = set()
-    for date_str, count in rows:
-        try:
-            day, mo, yr = date_str.split("-")
-        except (ValueError, AttributeError):
-            continue
-        if int(yr) == year and int(mo) == month and count >= total_slots:
-            full_dates.add(date_str)
-    return full_dates
+    return {date_str for date_str, count in rows if count >= total_slots}
 
 
 def get_user_appointments(user_id):

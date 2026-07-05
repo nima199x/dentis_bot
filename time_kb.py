@@ -1,5 +1,7 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
+from lang import t
+
 # ساعت‌های معمول ویزیت (صبح و عصر)
 CLINIC_SLOTS = [
     "09:00", "09:30", "10:00", "10:30",
@@ -9,7 +11,7 @@ CLINIC_SLOTS = [
 ]
 
 
-def build_time_keyboard(booked_times) -> InlineKeyboardMarkup:
+def build_time_keyboard(booked_times, lang: str = "fa") -> InlineKeyboardMarkup:
     rows = []
     row = []
     for slot in CLINIC_SLOTS:
@@ -23,5 +25,5 @@ def build_time_keyboard(booked_times) -> InlineKeyboardMarkup:
     if row:
         rows.append(row)
 
-    rows.append([InlineKeyboardButton(text="⬅ بازگشت به تقویم", callback_data="time:back")])
+    rows.append([InlineKeyboardButton(text=t(lang, "back_to_calendar"), callback_data="time:back")])
     return InlineKeyboardMarkup(inline_keyboard=rows)
