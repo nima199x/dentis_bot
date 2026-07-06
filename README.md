@@ -5,51 +5,51 @@
 <h1 align="center">🦷 Dentis Bot</h1>
 
 <p align="center">
-  ربات تلگرامی رزرو نوبت برای مطب دندان‌پزشکی — ساخته‌شده با aiogram 3.x
+  A Telegram bot for booking dental clinic appointments — built with aiogram 3.x
 </p>
 
 ---
 
-## ✨ ویژگی‌ها
+## ✨ Features
 
-- 📋 فرآیند رزرو مرحله‌به‌مرحله: نام → شماره تماس → تاریخ → ساعت
-- 📅 تقویم تعاملی با دکمه (شمسی برای فارسی، میلادی برای انگلیسی)
-- ⏰ ساعت‌های عرف مطب (صبح و عصر)، با بلاک‌شدن خودکار ساعت‌ها و روزهای پر
-- 🌐 دوزبانه: فارسی و English، هرکس زبان خودش رو انتخاب می‌کنه
-- ❌ لغو/حذف نوبت توسط خود مشتری (`/cancel`)
-- 👨‍⚕️ پنل ادمین برای دیدن لیست نوبت‌ها (`/appointments`)
-- 🔒 توکن و اطلاعات حساس همیشه در `.env`، هیچ‌وقت داخل کد
+- 📋 Step-by-step booking flow: name → phone number → date → time
+- 📅 Interactive inline calendar (Persian/Jalali for Farsi users, Gregorian for English users)
+- ⏰ Standard clinic time slots (morning and evening), with automatic blocking of taken slots and fully-booked days
+- 🌐 Bilingual: Persian and English, each user picks their own language
+- ❌ Customers can cancel their own appointments (`/cancel`)
+- 👨‍⚕️ Admin panel to list all appointments (`/appointments`)
+- 🔒 Secrets (bot token, admin IDs) always live in `.env`, never hardcoded
 
-## 📸 تصاویر
+## 🛠 Tech Stack
+
+- Python 3.10+
+- [aiogram 3.x](https://docs.aiogram.dev/) — Telegram bot framework
+- SQLite — appointment storage
+- `jdatetime` — Jalali (Persian) calendar conversion
+
+## 📸 Screenshots
 
 <p align="center">
   <img src="assets/screenshot-calendar.png" width="280" alt="Calendar screenshot">
   <img src="assets/screenshot-booking.png" width="280" alt="Booking confirmation screenshot">
 </p>
 
-## 🛠 تکنولوژی‌ها
-
-- Python 3.10+
-- [aiogram 3.x](https://docs.aiogram.dev/) — فریم‌ورک بات تلگرام
-- SQLite — ذخیره‌ی نوبت‌ها
-- `jdatetime` — تبدیل و کار با تاریخ شمسی
-
-## 🚀 راه‌اندازی
+## 🚀 Setup
 
 ```bash
 git clone https://github.com/nima199x/dentis_bot.git
 cd dentis_bot
 
 python -m venv dentis_venv
-# ویندوز:
+# Windows:
 .\dentis_venv\Scripts\Activate.ps1
-# لینوکس/مک:
+# Linux/macOS:
 source dentis_venv/bin/activate
 
 pip install -r requirements.txt
 ```
 
-یه فایل `.env` بساز (از روی `.env.example` کپی کن) و مقادیر واقعی رو بذار:
+Create a `.env` file (copy from `.env.example`) and fill in real values:
 
 ```
 BOT_TOKEN=your_bot_token_here
@@ -57,26 +57,26 @@ PROXY_URL=http://127.0.0.1:10808
 ADMIN_IDS=your_numeric_telegram_id
 ```
 
-اجرا:
+Run:
 
 ```bash
 python bot.py
 ```
 
-## 📂 ساختار پروژه
+## 📂 Project Structure
 
 ```
 dentis_bot/
-├── bot.py            # نقطه‌ی ورود و راه‌اندازی بات
-├── config.py         # خوندن تنظیمات از .env
-├── database.py       # مدیریت دیتابیس SQLite
-├── handlers.py       # منطق FSM و دستورات بات
-├── calendar_kb.py     # ساخت تقویم شمسی/میلادی
-├── time_kb.py         # ساخت کیبورد ساعت‌های نوبت
-├── lang.py            # متن‌های فارسی/انگلیسی
+├── bot.py            # Entry point, bot startup
+├── config.py         # Loads settings from .env
+├── database.py       # SQLite database logic
+├── handlers.py       # FSM flow and bot commands
+├── calendar_kb.py     # Jalali/Gregorian calendar keyboard builder
+├── time_kb.py         # Time-slot keyboard builder
+├── lang.py            # Persian/English text strings
 └── requirements.txt
 ```
 
-## 📄 لایسنس
+## 📄 License
 
-فقط برای استفاده‌ی شخصی/داخلی. بدون لایسنس رسمی.
+For personal/internal use only. No formal license.
